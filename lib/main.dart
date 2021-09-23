@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_code_base/di/injector.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'injector.dart';
-import 'src/config/app_config.dart';
-import 'arc/presentation/blocs/app/app_bloc.dart';
-import 'src/config/app_routes.dart';
-import 'src/config/app_theme.dart';
-import 'src/constants/constants.dart';
-
+import 'config/config.dart';
+import 'constants/constants.dart';
+import 'presentation/blocs/blocs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => injector<AppBloc>(),
+      create: (context) => AppInjector.injector<AppBloc>(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppConstants.appTitle,
-        onGenerateRoute: AppRoutes.onGenerateRoutes,
-        onGenerateInitialRoutes: (_) => AppRoutes.onGenerateInitialRoute(),
+        onGenerateRoute: AppRoutes.getRoute,
+        initialRoute: RouteConstants.home,
         theme: AppTheme.light,
         builder: EasyLoading.init(),
       ),
